@@ -21,3 +21,4 @@ models/
 
 # Logs
 *.log
+*_response.html
