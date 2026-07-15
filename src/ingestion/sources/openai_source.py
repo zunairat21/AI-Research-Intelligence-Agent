@@ -11,7 +11,7 @@ class OpenAISource:
     
         raw_response = requests.get(
             self.BASE_URL,
-            timeout=10)
+            timeout=20)
         if raw_response.status_code == 200:
             return raw_response
         
@@ -26,7 +26,6 @@ class OpenAISource:
         soup = BeautifulSoup(html, "html.parser")
         parsed_updates = []
         cards = soup.select("div.group.relative")
-        print(f"Found {len(cards)} cards")
         for card in cards:
 
             article = card.find("a")
@@ -39,7 +38,6 @@ class OpenAISource:
                 print(article.prettify())
                 continue
             title = title_element.get_text(strip=True)
-            print(title)
             category = article.find("span").get_text()
             url =article.get("href")
             date= article.find("time").get_text()
