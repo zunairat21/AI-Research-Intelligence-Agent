@@ -7,4 +7,4 @@ sources = [source]
 collector = Collector(sources)
 all_updates = collector.collect()
 print(all_updates[:3])
-print(len(all_updates))
+print(f"Total updates:{len(all_updates)}")
