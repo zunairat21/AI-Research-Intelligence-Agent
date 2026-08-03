@@ -4,9 +4,30 @@
 
 AI Research Intelligence Agent is a modular Python application that automatically collects AI news and research updates from multiple trusted sources.
 
-The project standardizes information into a common data model, validates incoming updates, cleans inconsistent data, and prepares it for future storage, analysis, and AI-powered summarization.
+The project standardizes information into a common data model, validates incoming updates, cleans inconsistent data, stores structured AI news in a SQLite database, and prepares it for future analysis and AI-powered summarization.
 
-This project is being developed step by step while following software engineering best practices such as modular architecture, clean code, unit testing, and version control with Git and GitHub.
+This project is being developed step by step while following software engineering best practices such as modular architecture, object-oriented programming, clean code, repository pattern, unit testing, and version control with Git and GitHub.
+
+---
+
+## 📈 Current Status
+
+**Current Phase:** Phase 2 – Storage Layer ✅ Completed
+
+### Progress
+
+- ✅ Project Structure
+- ✅ AIUpdate Data Model
+- ✅ Collector Module
+- ✅ Validator Module
+- ✅ Cleaner Module
+- ✅ SQLite Database
+- ✅ Repository Pattern
+- ✅ Storage Layer (CRUD)
+- ✅ Unit Testing
+- ✅ Git & GitHub Integration
+
+**Next Phase:** Web Scraping & Data Ingestion
 
 ---
 
@@ -16,7 +37,7 @@ This project is being developed step by step while following software engineerin
 - Standardize all updates into a common data model
 - Validate incoming data
 - Clean and normalize collected information
-- Store structured AI updates
+- Store structured AI updates in SQLite
 - Detect duplicate news
 - Generate AI-powered summaries
 - Build an AI research dashboard
@@ -35,7 +56,7 @@ Each component follows the same engineering workflow:
 4. Test independently
 5. Commit and document
 
-The objective is not only to build a working AI system but also to develop strong software engineering, backend development, and AI engineering fundamentals.
+The objective is not only to build a working AI system but also to develop strong software engineering, backend development, database design, and AI engineering fundamentals.
 
 ---
 
@@ -43,9 +64,6 @@ The objective is not only to build a working AI system but also to develop stron
 
 ```text
 AI Sources
-     │
-     ▼
-OpenAI Source
      │
      ▼
 Collector
@@ -57,7 +75,10 @@ Validator
 Cleaner
      │
      ▼
-Storage (Coming Soon)
+Storage Repository
+     │
+     ▼
+SQLite Database
 ```
 
 ---
@@ -68,20 +89,44 @@ Storage (Coming Soon)
 AI-Research-Intelligence-Agent/
 │
 ├── src/
-│   └── ingestion/
-│       ├── sources/
-│       │   └── openai_source.py
-│       ├── models.py
-│       ├── collector.py
-│       ├── validator.py
-│       └── cleaner.py
+│   ├── ingestion/
+│   │   ├── sources/
+│   │   │   └── openai_source.py
+│   │   ├── collector.py
+│   │   ├── validator.py
+│   │   ├── cleaner.py
+│   │   └── models.py
+│   │
+│   ├── storage/
+│   │   └── storage.py
+│   │
+│   └── database/
+│       └── database.py
 │
 ├── scripts/
 │
 ├── data/
+│   └── ai_updates.db
 │
 └── README.md
 ```
+
+---
+
+## 🛠️ Storage Layer
+
+The Storage layer follows the **Repository Pattern** and provides complete CRUD functionality for managing AI research updates stored in SQLite.
+
+Implemented repository methods:
+
+- `save_update()`
+- `get_all_updates()`
+- `get_update_by_url()`
+- `get_updates_by_source()`
+- `get_updates_by_category()`
+- `get_updates_by_date()`
+- `update_aiupdate()` *(or `update_update()` depending on your implementation)*
+- `delete_update_by_url()`
 
 ---
 
@@ -92,7 +137,10 @@ AI-Research-Intelligence-Agent/
 - [x] Collector Module
 - [x] Validator Module
 - [x] Cleaner Module
-- [x] Unit Testing
+- [x] SQLite Database Integration
+- [x] Storage Repository
+- [x] CRUD Operations
+- [x] Repository Testing
 - [x] Git & GitHub Integration
 
 ---
@@ -100,6 +148,7 @@ AI-Research-Intelligence-Agent/
 ## 🛠️ Tech Stack
 
 - Python 3.10+
+- SQLite
 - Requests
 - BeautifulSoup4
 - Dataclasses
@@ -111,12 +160,35 @@ AI-Research-Intelligence-Agent/
 
 ## 🚀 Roadmap
 
+### Phase 1 – Foundation ✅
+
+- [x] AIUpdate Data Model
+- [x] Collector
+- [x] Validator
+- [x] Cleaner
+
+### Phase 2 – Storage ✅
+
+- [x] SQLite Database
+- [x] Repository Pattern
+- [x] CRUD Operations
+
+### Phase 3 – Ingestion (In Progress)
+
+- [ ] Web Scraping with Requests
+- [ ] BeautifulSoup Integration
 - [ ] Anthropic Source
 - [ ] Google DeepMind Source
 - [ ] Multi-source Collection
-- [ ] Database Integration
+
+### Phase 4 – AI Processing
+
 - [ ] Duplicate Detection
 - [ ] AI-powered Summarization
+- [ ] Automatic Categorization
+
+### Phase 5 – Application
+
 - [ ] REST API
 - [ ] Streamlit Dashboard
 
@@ -124,6 +196,4 @@ AI-Research-Intelligence-Agent/
 
 ## 👩‍💻 Author
 
-**Zara**
-
-Building an end-to-end AI Research Intelligence Agent while strengthening software engineering, backend development, and AI system design skills through hands-on project development.
+**Zunaira**
