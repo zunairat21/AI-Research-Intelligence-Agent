@@ -144,5 +144,255 @@ class Storage :
       finally:
           connection.close()
 
+    def get_updates_by_source(self, source :str):
+
+      connection = get_connection()
+
+      try:
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+           """
+             SELECT 
+                   title, 
+                   source,
+                   url,
+                   date,
+                   category,
+                   summary, tags
+                   FROM ai_updates WHERE source = ?
+
+          """,
+
+            (source,)
+        )
+
+        rows = cursor.fetchall()
+
+        updates =[]
+
+        for row in rows:
+           
+          
+           update = AIUpdate(
+              title=row[0],
+              source= row[1],
+              url=row[2],
+              date=row[3],
+              category=row[4],
+              summary=row[5],
+              tags=row[6]
+           )
+
+           updates.append(update)
+
+        return updates
         
+      finally:
+         connection.close()
+
+
+    def get_updates_by_category(self, category:str):
+
+      connection = get_connection()
+
+      try:
+
+         cursor = connection.cursor()
+
+         cursor.execute(
+            """
+              SELECT 
+                  title,
+                  source,
+                  url,
+                  date,
+                  category,
+                  summary, 
+                  tags FROM ai_updates WHERE category = ?
+            """ ,
+               (category,)
+
+              
+         )
+
+         rows = cursor.fetchall()
+
+         updates = []
+
+         for row in rows:
+
+             update = AIUpdate(
+                title= row[0],
+                source = row[1],
+                url = row[2],
+                date = row[3],
+                category=row[4],
+                summary = row[5],
+                tags = row[6]
+             )
+
+             updates.append(update)
+
+         return updates
+
+      finally :
+
+         connection.close()
+
+    def get_updates_by_date(self, date:str):
+
+     connection = get_connection()
+
+     try:
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+           """
+              SELECT 
+                    title,
+                    source,
+                    url, 
+                    date, 
+                    category, 
+                    summary,
+                    tags FROM ai_updates WHERE date = ?
+          """,
+             (date,)
+        )
+
+        rows = cursor.fetchall()
+
+        updates = []
+
+        for row in rows:
+
+           update = AIUpdate(
+              title=row[0],
+              source=row[1],
+              url=row[2],
+              date = row[3],
+              category=row[4],
+              summary=row[5],
+              tags=row[6]
+           )
+
+           updates.append(update)
+
+        return updates
+
+     finally:
+
+      connection.close()
+
+
+    def delete_update_by_url(self, url:str):
+
+      connection = get_connection()
+
+      try:
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+           """
+              DELETE
+                      FROM ai_updates  WHERE url = ?
+           """ ,
+
+            (url,)
+
+
+      )
+
+        connection.commit()
+
+
+        if cursor.rowcount == 1:
+           return True
+
+        else:
+           return False
+        
+      finally:
+
+           connection.close()
+
+           
+
+    def update_aiupdate(self, update:AIUpdate):
+    
+         connection = get_connection()
+    
+         try:
+    
+             cursor = connection.cursor()
+    
+             cursor.execute(
+                """
+                   UPDATE  ai_updates
+                    
+                   SET 
+                      
+                       title =?,
+                       source=?,
+                       date=?,
+                       category=?,
+                       summary=?,
+                       tags=?
+                       
+                       WHERE url=?
+    
+                   
+    
+                """ ,
+                 
+    
+                     (update.title,
+                      update.source,
+                      update.date,
+                      update.category,
+                      update.summary,
+                      update.tags,
+                      update.url
+                     )
+    
+                
+                )
+    
+             connection.commit()
+
+             if cursor.rowcount == 1:
+                return True 
+             else:
+                return False 
+
+
+         finally:
+
+                connection.close()
+
+
             
+
+            
+
+         
+
+         
+
+         
+
+
+       
+
+
+
+
+
+
+      
+
+
