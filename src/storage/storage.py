@@ -322,7 +322,7 @@ class Storage :
 
            
 
-    def update_aiupdate(self, update:AIUpdate):
+    def update_aiupdate(self, update:AIUpdate,):
     
          connection = get_connection()
     
@@ -342,7 +342,7 @@ class Storage :
                        category=?,
                        summary=?,
                        tags=?
-                       
+
                        WHERE url=?
     
                    
