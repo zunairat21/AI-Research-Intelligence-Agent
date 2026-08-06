@@ -12,7 +12,7 @@ This project is being developed step by step while following software engineerin
 
 ## 📈 Current Status
 
-**Current Phase:** Phase 2 – Storage Layer ✅ Completed
+**Current Phase: End-to-End AI Research Pipeline ✅ Completed
 
 ### Progress
 
@@ -62,22 +62,21 @@ The objective is not only to build a working AI system but also to develop stron
 
 ## 🏗️ Current Architecture
 
-```text
-AI Sources
-     │
-     ▼
-Collector
-     │
-     ▼
+```OpenAI News
+      │
+      ▼
+OpenAISource
+      │
+      ▼
 Validator
-     │
-     ▼
+      │
+      ▼
 Cleaner
-     │
-     ▼
+      │
+      ▼
 Storage Repository
-     │
-     ▼
+      │
+      ▼
 SQLite Database
 ```
 
@@ -142,7 +141,9 @@ Implemented repository methods:
 - [x] CRUD Operations
 - [x] Repository Testing
 - [x] Git & GitHub Integration
-
+- [x] OpenAI Ingestion Pipeline
+- [x] End-to-End AI Research Pipeline
+- [x] Orchestrator
 ---
 
 ## 🛠️ Tech Stack
@@ -173,21 +174,28 @@ Implemented repository methods:
 - [x] Repository Pattern
 - [x] CRUD Operations
 
-### Phase 3 – Ingestion (In Progress)
+### Phase 3 – End-to-End Pipeline ✅
 
-- [ ] Web Scraping with Requests
-- [ ] BeautifulSoup Integration
+- [x] OpenAI Source
+- [x] HTML Parsing
+- [x] AIUpdate Conversion
+- [x] Orchestrator
+- [x] End-to-End Pipeline Testing
+
+### Phase 4 – Next
+
+- [ ] Duplicate Detection
+- [ ] Multi-source Collection
 - [ ] Anthropic Source
 - [ ] Google DeepMind Source
-- [ ] Multi-source Collection
 
-### Phase 4 – AI Processing
+### Phase 5 – AI Processing
 
 - [ ] Duplicate Detection
 - [ ] AI-powered Summarization
 - [ ] Automatic Categorization
 
-### Phase 5 – Application
+### Phase 6 – Application
 
 - [ ] REST API
 - [ ] Streamlit Dashboard
