@@ -2,87 +2,94 @@
 
 ## 📌 Project Overview
 
-AI Research Intelligence Agent is a modular Python application that automatically collects AI news and research updates from multiple trusted sources.
+AI Research Intelligence Agent is a modular Python application that automatically collects AI news and research updates from trusted AI sources.
 
-The project standardizes information into a common data model, validates incoming updates, cleans inconsistent data, stores structured AI news in a SQLite database, and prepares it for future analysis and AI-powered summarization.
+The system scrapes AI news websites, validates and cleans the collected information, detects duplicate updates, and stores structured data in a SQLite database. The project follows clean architecture principles where each module has a single responsibility and is independently testable.
 
-This project is being developed step by step while following software engineering best practices such as modular architecture, object-oriented programming, clean code, repository pattern, unit testing, and version control with Git and GitHub.
-
----
-
-## 📈 Current Status
-
-**Current Phase: End-to-End AI Research Pipeline ✅ Completed
-
-### Progress
-
-- ✅ Project Structure
-- ✅ AIUpdate Data Model
-- ✅ Collector Module
-- ✅ Validator Module
-- ✅ Cleaner Module
-- ✅ SQLite Database
-- ✅ Repository Pattern
-- ✅ Storage Layer (CRUD)
-- ✅ Unit Testing
-- ✅ Git & GitHub Integration
-
-**Next Phase:** Web Scraping & Data Ingestion
+The project is being developed incrementally while following software engineering best practices including modular design, object-oriented programming, unit testing, Git version control, and clean code principles.
 
 ---
 
-## 🎯 Project Goals
+# 🎯 Project Goals
 
 - Collect AI news from multiple trusted sources
-- Standardize all updates into a common data model
+- Standardize updates into a common data model
 - Validate incoming data
-- Clean and normalize collected information
-- Store structured AI updates in SQLite
-- Detect duplicate news
+- Clean inconsistent data
+- Store structured AI updates
+- Detect duplicate news automatically
+- Build a scalable multi-source ingestion pipeline
 - Generate AI-powered summaries
 - Build an AI research dashboard
 
 ---
 
-## 📖 Development Approach
+# 📖 Development Approach
 
-This project is intentionally developed module by module instead of copying complete implementations.
-
-Each component follows the same engineering workflow:
+Every module in this project follows the same engineering workflow:
 
 1. Understand the problem
 2. Design the solution
 3. Implement the module
 4. Test independently
-5. Commit and document
+5. Integrate into the pipeline
+6. Commit and document
 
-The objective is not only to build a working AI system but also to develop strong software engineering, backend development, database design, and AI engineering fundamentals.
+The objective is not only to build an AI application but also to practice professional backend software engineering and AI engineering principles.
 
 ---
 
-## 🏗️ Current Architecture
+# 🚀 Current Status
 
-```OpenAI News
-      │
-      ▼
-OpenAISource
-      │
-      ▼
-Validator
-      │
-      ▼
-Cleaner
-      │
-      ▼
-Storage Repository
-      │
-      ▼
-SQLite Database
+**Current Phase:** ✅ Phase 4 – Multi-Source Collection (In Progress)
+
+### Completed Phases
+
+- ✅ Phase 1 – Foundation
+- ✅ Phase 2 – Storage Layer
+- ✅ Phase 3 – End-to-End AI Research Pipeline
+
+---
+
+# 🏗 Current Architecture
+
+```text
+                OpenAI News
+                     │
+                     ▼
+              OpenAISource
+                     │
+                     ▼
+            fetch_raw_data()
+                     │
+                     ▼
+            parse_response()
+                     │
+                     ▼
+       convert_to_ai_updates()
+                     │
+                     ▼
+             List[AIUpdate]
+                     │
+                     ▼
+               Validator
+                     │
+                     ▼
+                Cleaner
+                     │
+                     ▼
+          Duplicate Detection
+                     │
+                     ▼
+                 Storage Layer
+                     │
+                     ▼
+                SQLite Database
 ```
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```text
 AI-Research-Intelligence-Agent/
@@ -91,16 +98,16 @@ AI-Research-Intelligence-Agent/
 │   ├── ingestion/
 │   │   ├── sources/
 │   │   │   └── openai_source.py
+│   │   ├── models.py
 │   │   ├── collector.py
 │   │   ├── validator.py
-│   │   ├── cleaner.py
-│   │   └── models.py
+│   │   └── cleaner.py
 │   │
 │   ├── storage/
+│   │   ├── database.py
 │   │   └── storage.py
 │   │
-│   └── database/
-│       └── database.py
+│   └── orchestrator.py
 │
 ├── scripts/
 │
@@ -112,46 +119,53 @@ AI-Research-Intelligence-Agent/
 
 ---
 
-## 🛠️ Storage Layer
+# ✅ Completed Features
 
-The Storage layer follows the **Repository Pattern** and provides complete CRUD functionality for managing AI research updates stored in SQLite.
-
-Implemented repository methods:
-
-- `save_update()`
-- `get_all_updates()`
-- `get_update_by_url()`
-- `get_updates_by_source()`
-- `get_updates_by_category()`
-- `get_updates_by_date()`
-- `update_aiupdate()` *(or `update_update()` depending on your implementation)*
-- `delete_update_by_url()`
-
----
-
-## ✅ Completed Milestones
+### Foundation
 
 - [x] AIUpdate Data Model
-- [x] OpenAI News Source
 - [x] Collector Module
 - [x] Validator Module
 - [x] Cleaner Module
-- [x] SQLite Database Integration
-- [x] Storage Repository
-- [x] CRUD Operations
-- [x] Repository Testing
-- [x] Git & GitHub Integration
-- [x] OpenAI Ingestion Pipeline
-- [x] End-to-End AI Research Pipeline
-- [x] Orchestrator
+
+### Web Scraping
+
+- [x] OpenAI News Source
+- [x] HTML Fetching using Requests
+- [x] HTML Parsing using BeautifulSoup
+- [x] AIUpdate Object Conversion
+
+### Storage Layer
+
+- [x] SQLite Database
+- [x] Database Connection
+- [x] Save Update
+- [x] Get All Updates
+- [x] Get Update by URL
+- [x] Get Updates by Source
+- [x] Get Updates by Category
+- [x] Get Updates by Date
+- [x] Update Existing Record
+- [x] Delete Record
+- [x] Duplicate Detection
+
+### Pipeline
+
+- [x] End-to-End Orchestrator
+- [x] Validation Integration
+- [x] Cleaning Integration
+- [x] Duplicate Detection Integration
+- [x] Storage Integration
+- [x] End-to-End Pipeline Testing
+
 ---
 
-## 🛠️ Tech Stack
+# 🛠 Tech Stack
 
 - Python 3.10+
-- SQLite
 - Requests
 - BeautifulSoup4
+- SQLite3
 - Dataclasses
 - Typing
 - Git
@@ -159,48 +173,38 @@ Implemented repository methods:
 
 ---
 
-## 🚀 Roadmap
+# 🚀 Next Roadmap
 
-### Phase 1 – Foundation ✅
+## Phase 4 – Multi-Source Collection
 
-- [x] AIUpdate Data Model
-- [x] Collector
-- [x] Validator
-- [x] Cleaner
-
-### Phase 2 – Storage ✅
-
-- [x] SQLite Database
-- [x] Repository Pattern
-- [x] CRUD Operations
-
-### Phase 3 – End-to-End Pipeline ✅
-
-- [x] OpenAI Source
-- [x] HTML Parsing
-- [x] AIUpdate Conversion
-- [x] Orchestrator
-- [x] End-to-End Pipeline Testing
-
-### Phase 4 – Next
-
-- [ ] Duplicate Detection
-- [ ] Multi-source Collection
 - [ ] Anthropic Source
 - [ ] Google DeepMind Source
+- [ ] Microsoft Research Source
+- [ ] Hugging Face Source
+- [ ] Multi-Source Orchestrator
 
-### Phase 5 – AI Processing
+## Phase 5 – API
 
-- [ ] Duplicate Detection
-- [ ] AI-powered Summarization
-- [ ] Automatic Categorization
+- [ ] FastAPI REST API
+- [ ] API Endpoints
+- [ ] Automatic Refresh Endpoint
 
-### Phase 6 – Application
+## Phase 6 – AI Intelligence
 
-- [ ] REST API
+- [ ] AI-generated Summaries
+- [ ] Research Insights
+- [ ] Trend Detection
+
+## Phase 7 – Dashboard
+
 - [ ] Streamlit Dashboard
+- [ ] Search & Filter Updates
+- [ ] Analytics Dashboard
 
 ---
+
+# 👩‍💻 Author
+
 
 ## 👩‍💻 Author
 
