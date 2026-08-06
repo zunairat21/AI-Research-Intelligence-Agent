@@ -62,7 +62,7 @@ class OpenAISource:
         for update in parsed_updates:
             ai_update = AIUpdate(
                 title=update["title"],
-                source=update"OpenAI",  ##As it always open "Openai" THATS WHY WE ARE USING LIKE THIS NOT USING BRACKETS.
+                source="OpenAI",  ##As it always open "Openai" THATS WHY WE ARE USING LIKE THIS NOT USING BRACKETS.
                 url=update["url"],
                 date=update["date"],
                 category=update["category"]
