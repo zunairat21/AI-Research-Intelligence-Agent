@@ -374,6 +374,39 @@ class Storage :
 
                 connection.close()
 
+    def update_exists(self, url:str) -> bool:
+
+        connection = get_connection()
+
+
+        try:
+
+            cursor = connection.cursor()
+
+            cursor.execute(
+               """
+                 SELECT 
+                        url
+                        FROM ai_updates WHERE url = ?
+               """,
+
+                  (url,)
+            )
+
+            row  = cursor.fetchone()
+            
+            if row is not  None:
+
+               return True
+
+            
+
+            return False
+
+        finally:
+
+               connection.close()
+
 
             
 

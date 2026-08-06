@@ -26,6 +26,13 @@ class Orchestrator :
              
             cleaned_aiupdate = self.cleaner.clean(aiupdate)
 
+            aiupdate_exist = self.storage.update_exists(cleaned_aiupdate.url)
+
+            if aiupdate_exist:
+
+                 continue
+                
+           
             self.storage.save_update(cleaned_aiupdate)
 
             save_updates += 1
