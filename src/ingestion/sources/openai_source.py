@@ -65,7 +65,9 @@ class OpenAISource:
                 source="OpenAI",  ##As it always open "Openai" THATS WHY WE ARE USING LIKE THIS NOT USING BRACKETS.
                 url=update["url"],
                 date=update["date"],
-                category=update["category"]
+                category=update["category"],
+                summary="",
+                tags= ""
                 
             )
 
