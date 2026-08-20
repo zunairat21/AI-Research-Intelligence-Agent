@@ -144,7 +144,7 @@ class Storage :
       finally:
           connection.close()
 
-    def get_updates_by_source(self, source :str):
+    def get_updates_by_source(self, source :str | None=None):
 
       connection = get_connection()
 
@@ -407,9 +407,56 @@ class Storage :
 
                connection.close()
 
+    def get_update_by_source_and_category(self, source:str, category:str):
 
-            
+      connection = get_connection()
 
+      try :
+
+            cursor = connection.cursor()
+
+            cursor.execute(
+               """ 
+               SELECT 
+                    title, 
+                    source,
+                    url,
+                    date,
+                    category,
+                    summary,
+                    tags FROM ai_updates WHERE source=? AND category=?
+               """,
+
+                 (source, category,)
+            )
+
+            rows = cursor.fetchall()
+
+            updates = []
+
+            for row in rows:
+
+               update = AIUpdate(
+                  title=row[0],
+                  source=row[1],
+                  url=row[2],
+                  date=row[3],
+                  category=row[4],
+                  summary=row[5],
+                  tags=row[6]
+               )
+               updates.append(update)
+
+            return updates
+
+      finally:
+
+           connection.close()
+
+    
+
+
+         
             
 
          
