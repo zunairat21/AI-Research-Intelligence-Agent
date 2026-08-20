@@ -2,117 +2,186 @@
 
 ## 📌 Project Overview
 
-AI Research Intelligence Agent is a modular Python application that automatically collects AI news and research updates from trusted AI sources.
+AI Research Intelligence Agent is a modular Python application that automatically collects AI news and research updates from trusted AI research organizations.
 
-The system currently collects updates from OpenAI, Anthropic, and Google DeepMind, converts source-specific data into a common data model, validates and cleans the collected information, detects duplicate updates, and stores structured data in a SQLite database.
+The system currently collects updates from:
 
-The project follows clean architecture principles where each module has a single responsibility and is independently testable. The multi-source architecture allows additional AI research sources to be integrated without changing the core processing pipeline.
+- OpenAI
+- Anthropic
+- Google DeepMind
 
-The project is being developed incrementally while following software engineering best practices including modular design, object-oriented programming, independent testing, Git version control, and clean code principles.
+Each source has its own scraping logic, but all collected information is converted into a common `AIUpdate` data model before entering the shared processing pipeline.
+
+The application validates and cleans incoming updates, prevents duplicate records, stores structured information in SQLite, and exposes the collected intelligence through a FastAPI REST API.
+
+The API allows external clients to:
+
+- Retrieve all stored AI research updates
+- Filter updates by source
+- Filter updates by category
+- Combine source and category filters
+- Trigger a fresh multi-source collection run
+- Receive structured JSON responses
+- Interact with automatically generated Swagger/OpenAPI documentation
+
+The project follows a modular architecture where components have focused responsibilities and can be developed and tested independently.
 
 ---
 
 # 🎯 Project Goals
 
 - Collect AI news from multiple trusted sources
-- Standardize source-specific updates into a common data model
-- Validate incoming data
+- Standardize source-specific information into a common data model
+- Validate incoming research updates
 - Clean inconsistent data
 - Store structured AI updates
-- Detect duplicate news automatically
+- Prevent duplicate news automatically
 - Build a scalable multi-source ingestion pipeline
+- Expose collected intelligence through a REST API
+- Apply input validation and meaningful HTTP error handling
 - Generate AI-powered summaries and research insights
-- Expose collected intelligence through an API
-- Build an AI research dashboard
+- Detect trends across AI research updates
+- Build an interactive AI research intelligence dashboard
 
 ---
 
 # 📖 Development Approach
 
-Every module in this project follows the same engineering workflow:
+The project is being developed incrementally using a learning-first software engineering workflow.
+
+For every major component:
 
 1. Understand the problem
-2. Design the solution
-3. Implement the module
-4. Test independently
-5. Integrate into the pipeline
-6. Commit and document
+2. Design the expected behavior
+3. Implement the component
+4. Test it independently
+5. Integrate it with the existing system
+6. Perform end-to-end testing
+7. Commit the completed milestone
+8. Update project documentation
 
-The objective is not only to build an AI application but also to practice professional backend software engineering and AI engineering principles.
+The goal is not only to build an AI application, but also to practice professional backend development, API design, modular architecture, testing, Git version control, and AI engineering principles.
 
 ---
 
 # 🚀 Current Status
 
-**Current Phase:** ✅ Phase 4 – Multi-Source Collection (Completed)
+**Current Phase:** ✅ Phase 5 – FastAPI REST API Completed
 
-### Completed Phases
+## Completed Phases
 
 - ✅ Phase 1 – Foundation
 - ✅ Phase 2 – Storage Layer
 - ✅ Phase 3 – End-to-End AI Research Pipeline
 - ✅ Phase 4 – Multi-Source Collection
+- ✅ Phase 5 – FastAPI REST API
 
-### Next Phase
+## Next Phase
 
-- 🚧 Phase 5 – API
+- 🚧 Phase 6 – AI Intelligence
 
 ---
 
-# 🏗 Current Architecture
+# 🏗 System Architecture
 
 ```text
-        ┌─────────────────┐
-        │   OpenAI News   │
-        └────────┬────────┘
-                 │
-                 ▼
-          ┌──────────────┐
-          │ OpenAISource │
-          └──────┬───────┘
-                 │
-
-        ┌──────────────────┐
-        │  Anthropic News  │
-        └────────┬─────────┘
-                 │
-                 ▼
-        ┌─────────────────┐
-        │ AnthropicSource │
-        └────────┬────────┘
-                 │
-
-        ┌─────────────────────┐
-        │ Google DeepMind News│
-        └──────────┬──────────┘
-                   │
-                   ▼
-         ┌──────────────────┐
-         │  DeepMindSource  │
-         └─────────┬────────┘
-                   │
-                   ▼
-        ┌─────────────────────┐
-        │ Common AIUpdate Model│
-        └──────────┬──────────┘
-                   │
-                   ▼
-              Validator
-                   │
-                   ▼
-                Cleaner
-                   │
-                   ▼
-          Duplicate Detection
-                   │
-                   ▼
-              Storage Layer
-                   │
-                   ▼
-            SQLite Database
+                     AI Research Sources
+                            │
+          ┌─────────────────┼─────────────────┐
+          │                 │                 │
+          ▼                 ▼                 ▼
+     OpenAI News       Anthropic News    DeepMind News
+          │                 │                 │
+          ▼                 ▼                 ▼
+    OpenAISource      AnthropicSource    DeepMindSource
+          │                 │                 │
+          └─────────────────┼─────────────────┘
+                            │
+                            ▼
+                   Common AIUpdate Model
+                            │
+                            ▼
+                        Validator
+                            │
+                            ▼
+                         Cleaner
+                            │
+                            ▼
+                    Duplicate Detection
+                            │
+                            ▼
+                       Storage Layer
+                            │
+                            ▼
+                     SQLite Database
+                            ▲
+                            │
+                ┌───────────┴───────────┐
+                │                       │
+                │                       │
+         GET /updates             POST /refresh
+                ▲                       │
+                │                       ▼
+           FastAPI API             Orchestrator
+                ▲                       │
+                │                       │
+        Client / Swagger UI        AI Sources
 ```
 
-Each source follows the same ingestion interface:
+The API does not directly contain database or scraping logic.
+
+Responsibilities remain separated:
+
+```text
+GET /updates
+     │
+     ▼
+FastAPI
+     │
+     ▼
+Storage
+     │
+     ▼
+SQLite
+```
+
+while:
+
+```text
+POST /refresh
+     │
+     ▼
+FastAPI
+     │
+     ▼
+Orchestrator
+     │
+     ▼
+OpenAI + Anthropic + DeepMind
+     │
+     ▼
+Validate
+     │
+     ▼
+Clean
+     │
+     ▼
+Duplicate Detection
+     │
+     ▼
+Storage
+     │
+     ▼
+SQLite
+```
+
+This keeps API routing, ingestion, orchestration, and database responsibilities separate.
+
+---
+
+# 🌐 Multi-Source Ingestion Architecture
+
+Each research source implements the same ingestion workflow:
 
 ```text
 fetch_raw_data()
@@ -127,94 +196,34 @@ convert_to_ai_updates()
 List[AIUpdate]
 ```
 
-The orchestrator loops through all configured sources and sends their updates through the same validation, cleaning, duplicate-detection, and storage pipeline.
-
----
-
-# 📂 Project Structure
+The orchestrator loops through all configured sources and passes their updates through the shared pipeline.
 
 ```text
-AI-Research-Intelligence-Agent/
-│
-├── src/
-│   ├── ingestion/
-│   │   ├── sources/
-│   │   │   ├── openai_source.py
-│   │   │   ├── anthropic_source.py
-│   │   │   └── deepmind_source.py
-│   │   │
-│   │   ├── models.py
-│   │   ├── collector.py
-│   │   ├── validator.py
-│   │   └── cleaner.py
-│   │
-│   ├── storage/
-│   │   ├── database.py
-│   │   └── storage.py
-│   │
-│   └── orchestrator.py
-│
-├── scripts/
-│   ├── test_openai.py
-│   ├── test_anthropic.py
-│   ├── test_deepmind.py
-│   └── test_orchestrator.py
-│
-├── data/
-│   └── ai_updates.db
-│
-└── README.md
+Source
+  │
+  ▼
+Fetch
+  │
+  ▼
+Parse
+  │
+  ▼
+Convert to AIUpdate
+  │
+  ▼
+Validate
+  │
+  ▼
+Clean
+  │
+  ▼
+Duplicate Check
+  │
+  ▼
+Save
 ```
 
----
-
-# ✅ Completed Features
-
-## Foundation
-
-- [x] AIUpdate Data Model
-- [x] Collector Module
-- [x] Validator Module
-- [x] Cleaner Module
-
-## Multi-Source Web Scraping
-
-- [x] OpenAI News Source
-- [x] Anthropic News Source
-- [x] Google DeepMind News Source
-- [x] HTML Fetching using Requests
-- [x] HTML Parsing using BeautifulSoup
-- [x] Source-Specific Parsing
-- [x] Common AIUpdate Object Conversion
-- [x] Independent Source Testing
-
-## Storage Layer
-
-- [x] SQLite Database
-- [x] Database Connection
-- [x] Save Update
-- [x] Get All Updates
-- [x] Get Update by URL
-- [x] Get Updates by Source
-- [x] Get Updates by Category
-- [x] Get Updates by Date
-- [x] Update Existing Record
-- [x] Delete Record
-- [x] Duplicate Detection using Unique URLs
-
-## Multi-Source Pipeline
-
-- [x] End-to-End Orchestrator
-- [x] Multiple Source Integration
-- [x] OpenAI Integration
-- [x] Anthropic Integration
-- [x] Google DeepMind Integration
-- [x] Validation Integration
-- [x] Cleaning Integration
-- [x] Duplicate Detection Integration
-- [x] Storage Integration
-- [x] End-to-End Multi-Source Pipeline Testing
-- [x] Duplicate Prevention Across Repeated Pipeline Runs
+This architecture allows additional AI research sources to be added later without redesigning the core processing pipeline.
 
 ---
 
@@ -248,24 +257,720 @@ Check URL for Existing Record
       Save to SQLite
 ```
 
-This design keeps source-specific scraping logic separate from the common processing pipeline.
+The update URL is used for duplicate detection, preventing the same research update from being stored repeatedly across multiple pipeline runs.
+
+---
+
+# 🌐 FastAPI REST API
+
+Phase 5 introduced a REST API built using FastAPI.
+
+The API provides controlled access to the research intelligence stored in the application while reusing the existing Storage and Orchestrator components.
+
+## Run the API
+
+From the project root:
+
+```bash
+uvicorn src.api:app
+```
+
+The local API runs at:
+
+```text
+http://127.0.0.1:8000
+```
+
+Interactive Swagger documentation is automatically available at:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# 🔌 API Endpoints
+
+## `GET /`
+
+Checks whether the API application is running.
+
+### Example
+
+```text
+GET /
+```
+
+### Response
+
+```json
+{
+  "message": "AI Research Intelligence Agent API is running"
+}
+```
+
+### Status
+
+```text
+200 OK
+```
+
+---
+
+## `GET /updates`
+
+Returns all AI research updates currently stored in SQLite.
+
+### Example
+
+```text
+GET /updates
+```
+
+### Flow
+
+```text
+Client
+  │
+  ▼
+GET /updates
+  │
+  ▼
+FastAPI
+  │
+  ▼
+Storage.get_all_updates()
+  │
+  ▼
+SQLite
+  │
+  ▼
+AIUpdate Objects
+  │
+  ▼
+FastAPI Serialization
+  │
+  ▼
+JSON Response
+```
+
+---
+
+# 🔎 Query Parameter Filtering
+
+The `/updates` endpoint supports optional query parameters.
+
+## Filter by Source
+
+```text
+GET /updates?source=OpenAI
+```
+
+Example supported values currently stored by the production ingestion pipeline include:
+
+```text
+OpenAI
+Anthropic
+DeepMind
+```
+
+The API does not hard-code these values as a whitelist.
+
+If a valid source string matches no records, the API returns:
+
+```json
+[]
+```
+
+with:
+
+```text
+200 OK
+```
+
+because the request itself was valid.
+
+---
+
+## Filter by Category
+
+```text
+GET /updates?category=Product
+```
+
+Only updates matching the requested category are returned.
+
+---
+
+## Combined Source and Category Filtering
+
+Multiple query parameters can be combined using `&`.
+
+```text
+GET /updates?source=OpenAI&category=Product
+```
+
+The Storage layer performs filtering using both conditions:
+
+```text
+source = OpenAI
+AND
+category = Product
+```
+
+Only records satisfying both conditions are returned.
+
+---
+
+# 🧹 Query Input Normalization
+
+Query values are normalized before being sent to the Storage layer.
+
+For example:
+
+```text
+"   OpenAI   "
+      │
+      ▼
+    strip()
+      │
+      ▼
+   "OpenAI"
+```
+
+Similarly:
+
+```text
+"   Product   "
+      │
+      ▼
+    strip()
+      │
+      ▼
+   "Product"
+```
+
+This prevents unnecessary leading or trailing whitespace from affecting database matching.
+
+---
+
+# 🛡 Input Validation and Error Handling
+
+The FastAPI layer includes both automatic validation and application-level validation.
+
+## `200 OK`
+
+Returned when the request succeeds.
+
+Examples:
+
+```text
+GET /updates
+GET /updates?source=OpenAI
+GET /updates?category=Product
+POST /refresh
+```
+
+An empty result set is still considered successful:
+
+```json
+[]
+```
+
+---
+
+## `400 Bad Request`
+
+Used when the client provides a query parameter containing only whitespace.
+
+Example:
+
+```text
+GET /updates?source=   
+```
+
+After normalization:
+
+```text
+"   "
+  │
+  ▼
+strip()
+  │
+  ▼
+""
+```
+
+The API deliberately raises:
+
+```text
+400 Bad Request
+```
+
+Example response:
+
+```json
+{
+  "detail": "Source can not be blank."
+}
+```
+
+The same validation is applied to category values.
+
+---
+
+## `404 Not Found`
+
+FastAPI automatically returns `404 Not Found` when the client requests an API route that does not exist.
+
+Example:
+
+```text
+GET /abc
+```
+
+Response:
+
+```json
+{
+  "detail": "Not Found"
+}
+```
+
+---
+
+## `422 Unprocessable Content`
+
+FastAPI automatically validates the query parameters.
+
+Both `source` and `category` use a minimum string length rule.
+
+Example:
+
+```text
+GET /updates?source=
+```
+
+The empty value violates:
+
+```text
+min_length = 1
+```
+
+FastAPI rejects the request before the endpoint function executes.
+
+---
+
+## `500 Internal Server Error`
+
+Unexpected server-side failures are handled separately from client validation errors.
+
+The refresh endpoint executes the orchestration pipeline inside a `try / except` block.
+
+Conceptually:
+
+```text
+POST /refresh
+      │
+      ▼
+try
+      │
+      ▼
+orchestrator.run()
+      │
+      ├── Success ──► 200 OK
+      │
+      └── Exception
+             │
+             ▼
+       Server Error
+             │
+             ▼
+            500
+```
+
+The server-side failure path was independently tested using a controlled exception.
+
+---
+
+# 🔄 `POST /refresh`
+
+The refresh endpoint triggers the existing multi-source orchestration pipeline.
+
+```text
+POST /refresh
+```
+
+It does not manually insert records itself.
+
+Instead:
+
+```text
+FastAPI
+   │
+   ▼
+Orchestrator.run()
+   │
+   ├── OpenAI
+   ├── Anthropic
+   └── DeepMind
+          │
+          ▼
+      Validation
+          │
+          ▼
+       Cleaning
+          │
+          ▼
+   Duplicate Detection
+          │
+          ▼
+       Storage
+          │
+          ▼
+        SQLite
+```
+
+### Example Successful Response
+
+```json
+{
+  "message": "Refresh Completed",
+  "saved_updates": 11
+}
+```
+
+The `saved_updates` value represents the number of newly inserted research updates.
+
+If the refresh succeeds but every collected update already exists:
+
+```json
+{
+  "message": "Refresh Completed",
+  "saved_updates": 0
+}
+```
+
+This still returns:
+
+```text
+200 OK
+```
+
+because the refresh operation itself completed successfully.
+
+Repeated refresh testing confirmed that duplicate updates are not inserted again.
+
+---
+
+# 📖 Swagger / OpenAPI Documentation
+
+FastAPI automatically generates interactive API documentation using OpenAPI and Swagger UI.
+
+Swagger is available locally at:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Swagger allows developers to:
+
+- View available endpoints
+- Inspect HTTP methods
+- Inspect query parameters
+- Execute API requests
+- View generated request URLs
+- Inspect response bodies
+- Inspect HTTP status codes
+- Test the API interactively
+
+The documentation is generated automatically from the FastAPI route definitions.
+
+---
+
+# 📸 API Demo
+
+The screenshots below provide visual proof that the REST API is running and connected to the real project backend.
+
+## Swagger API Documentation
+
+Swagger UI displays the available FastAPI endpoints and allows interactive testing.
+
+![FastAPI Swagger Documentation](docs/images/swagger-api.png)
+
+---
+
+## Retrieve Stored AI Updates
+
+The `GET /updates` endpoint retrieves real AI research updates from SQLite and exposes them as JSON.
+
+![GET Updates Response](docs/images/get-updates-response.png)
+
+---
+
+## Refresh AI Research Updates
+
+The `POST /refresh` endpoint executes the full multi-source ingestion pipeline and returns the number of newly stored updates.
+
+![POST Refresh Response](docs/images/post-refresh-response.png)
+
+---
+
+# 🧪 Phase 5 End-to-End API Testing
+
+The following API scenarios were tested successfully:
+
+```text
+GET /
+→ 200 OK
+
+GET /updates
+→ 200 OK + all stored updates
+
+GET /updates?source=OpenAI
+→ 200 OK + OpenAI updates
+
+GET /updates?category=Product
+→ 200 OK + Product updates
+
+GET /updates?source=OpenAI&category=Product
+→ 200 OK + records satisfying both filters
+
+Query values with surrounding whitespace
+→ normalized correctly
+
+Whitespace-only source/category
+→ 400 Bad Request
+
+Empty validated query parameter
+→ 422 validation error
+
+Unknown API route
+→ 404 Not Found
+
+POST /refresh
+→ 200 OK + saved_updates count
+
+Immediate repeated POST /refresh
+→ 200 OK + saved_updates: 0
+
+Controlled backend failure
+→ 500 Internal Server Error
+```
+
+This verifies the complete API flow from HTTP request through FastAPI, Storage or Orchestrator, SQLite, and back to the client as JSON.
+
+---
+
+# 📂 Project Structure
+
+```text
+AI-Research-Intelligence-Agent/
+│
+├── src/
+│   │
+│   ├── api.py
+│   │
+│   ├── orchestrator.py
+│   │
+│   ├── ingestion/
+│   │   │
+│   │   ├── sources/
+│   │   │   ├── openai_source.py
+│   │   │   ├── anthropic_source.py
+│   │   │   └── deepmind_source.py
+│   │   │
+│   │   ├── models.py
+│   │   ├── collector.py
+│   │   ├── validator.py
+│   │   └── cleaner.py
+│   │
+│   └── storage/
+│       ├── database.py
+│       └── storage.py
+│
+├── scripts/
+│   ├── test_openai.py
+│   ├── test_anthropic.py
+│   ├── test_deepmind.py
+│   ├── test_orchestrator.py
+│   └── test_get_update_by_source_and_category.py
+│
+├── data/
+│   └── ai_updates.db
+│
+├── requirements.txt
+└── README.md
+```
+
+---
+
+# ✅ Completed Features
+
+## Phase 1 – Foundation
+
+- [x] `AIUpdate` data model
+- [x] Collector module
+- [x] Validator module
+- [x] Cleaner module
+
+---
+
+## Phase 2 – Storage Layer
+
+- [x] SQLite database
+- [x] Database connection
+- [x] Save update
+- [x] Get update by URL
+- [x] Get all updates
+- [x] Get updates by source
+- [x] Get updates by category
+- [x] Get updates by date
+- [x] Get updates by source and category
+- [x] Update existing records
+- [x] Delete records
+- [x] Duplicate detection using unique URLs
+- [x] Independent Storage testing
+
+---
+
+## Phase 3 – End-to-End Pipeline
+
+- [x] Pipeline Orchestrator
+- [x] Source integration
+- [x] Validation integration
+- [x] Cleaning integration
+- [x] Duplicate detection integration
+- [x] SQLite storage integration
+- [x] End-to-end testing
+- [x] Repeated-run duplicate prevention
+
+---
+
+## Phase 4 – Multi-Source Collection
+
+- [x] OpenAI News source
+- [x] Anthropic News source
+- [x] Google DeepMind News source
+- [x] Requests-based HTTP collection
+- [x] BeautifulSoup HTML parsing
+- [x] Source-specific parsing
+- [x] Common `AIUpdate` conversion
+- [x] Multi-source Orchestrator
+- [x] Cross-source pipeline testing
+- [x] Duplicate prevention across multiple sources
+
+---
+
+## Phase 5 – FastAPI REST API
+
+- [x] FastAPI application
+- [x] Uvicorn ASGI server
+- [x] Root API endpoint
+- [x] `GET /updates`
+- [x] Source query filtering
+- [x] Category query filtering
+- [x] Combined source + category filtering
+- [x] FastAPI → Storage integration
+- [x] `POST /refresh`
+- [x] FastAPI → Orchestrator integration
+- [x] JSON API responses
+- [x] Query parameter validation
+- [x] Input normalization
+- [x] Manual `400 Bad Request`
+- [x] Automatic `422` validation
+- [x] `404 Not Found` behavior
+- [x] Unexpected `500` server-error handling
+- [x] Swagger/OpenAPI documentation
+- [x] End-to-end API testing
+- [x] Duplicate refresh verification
 
 ---
 
 # 🛠 Tech Stack
 
+## Backend
+
 - Python 3.10+
+- FastAPI
+- Uvicorn
+
+## Data Collection
+
 - Requests
 - BeautifulSoup4
+
+## Storage
+
 - SQLite3
+
+## Python Engineering
+
 - Dataclasses
 - Typing
+- `Annotated`
+
+## API Technologies
+
+- REST
+- HTTP
+- JSON
+- OpenAPI
+- Swagger UI
+
+## Development
+
 - Git
 - GitHub
 
 ---
 
-# 🚀 Roadmap
+# 📦 Dependencies
+
+Runtime dependencies are defined in `requirements.txt`.
+
+Current dependencies:
+
+```text
+requests==2.34.2
+beautifulsoup4==4.15.0
+fastapi==0.141.1
+uvicorn==0.52.1
+```
+
+Install them using:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# ▶️ Running the Project
+
+## Run the FastAPI Server
+
+From the project root:
+
+```bash
+uvicorn src.api:app
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8000
+```
+
+Swagger documentation:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# 🗺 Roadmap
 
 ## Phase 1 – Foundation ✅
 
@@ -274,12 +979,16 @@ This design keeps source-specific scraping logic separate from the common proces
 - [x] Validator
 - [x] Cleaner
 
+---
+
 ## Phase 2 – Storage Layer ✅
 
 - [x] SQLite Database
 - [x] CRUD Operations
 - [x] Query Operations
 - [x] Duplicate Detection
+
+---
 
 ## Phase 3 – End-to-End Pipeline ✅
 
@@ -288,54 +997,121 @@ This design keeps source-specific scraping logic separate from the common proces
 - [x] SQLite Storage Integration
 - [x] End-to-End Testing
 
+---
+
 ## Phase 4 – Multi-Source Collection ✅
 
 - [x] OpenAI Source
 - [x] Anthropic Source
 - [x] Google DeepMind Source
 - [x] Multi-Source Orchestrator
-- [x] Cross-Source Pipeline Testing
+- [x] Cross-Source Testing
 - [x] Duplicate Prevention
 
-## Phase 5 – API 🚧
+---
 
-- [ ] FastAPI REST API
-- [ ] Get All Updates Endpoint
-- [ ] Filter Updates by Source
-- [ ] Filter Updates by Category
-- [ ] Filter Updates by Date
-- [ ] Automatic Refresh Endpoint
+## Phase 5 – FastAPI REST API ✅
 
-## Phase 6 – AI Intelligence
+- [x] FastAPI Application
+- [x] REST API Design
+- [x] Root Endpoint
+- [x] Get All Updates Endpoint
+- [x] Source Filtering
+- [x] Category Filtering
+- [x] Combined Query Filtering
+- [x] Query Validation
+- [x] Input Normalization
+- [x] HTTP Error Handling
+- [x] Automatic Refresh Endpoint
+- [x] Swagger/OpenAPI Documentation
+- [x] End-to-End API Testing
 
-- [ ] AI-Generated Summaries
-- [ ] Research Insights
-- [ ] Trend Detection
+---
+
+## Phase 6 – AI Intelligence 🚧
+
+- [ ] AI-generated summaries
+- [ ] Research insight generation
+- [ ] Trend detection
+- [ ] Intelligence extraction from collected research updates
+
+---
 
 ## Phase 7 – Dashboard
 
-- [ ] Streamlit Dashboard
-- [ ] Search & Filter Updates
-- [ ] Analytics Dashboard
-- [ ] AI Research Intelligence View
+- [ ] Streamlit dashboard
+- [ ] Search and filter research updates
+- [ ] Analytics dashboard
+- [ ] AI research intelligence view
+- [ ] API-powered frontend integration
 
 ---
 
 # 🔮 Future Extensions
 
-The modular source architecture allows additional sources to be added later without redesigning the core pipeline.
+The modular architecture allows additional functionality to be introduced without redesigning the existing system.
 
-Potential future sources include:
+Potential future improvements include:
+
+- Date-based API query filtering
+- Pagination for large result sets
+- Additional query filters
+- Pydantic response models
+- Structured application logging
+- API authentication
+- Background refresh jobs
+- Scheduled research collection
+- Async source collection
+- Improved text normalization
+- Database migration support
+- Production deployment
+- Containerized API deployment
+- Extended automated testing
+
+Potential future research sources include:
 
 - Microsoft Research
 - Hugging Face
 - Meta AI
-- Additional AI research labs and publications
+- Additional AI laboratories
+- AI research publications
+- Academic AI research feeds
+
+---
+
+# 🧠 Engineering Concepts Practiced
+
+This project demonstrates practical understanding of:
+
+- Object-oriented programming
+- Modular software architecture
+- Separation of concerns
+- Repository/storage pattern
+- SQLite CRUD operations
+- SQL filtering
+- HTTP client/server communication
+- REST API design
+- HTTP methods
+- Path and query parameters
+- JSON serialization
+- FastAPI
+- Uvicorn
+- ASGI
+- OpenAPI
+- Swagger UI
+- Input validation
+- HTTP status codes
+- Exception handling
+- Multi-source web scraping
+- Duplicate detection
+- End-to-end integration testing
+- Git-based incremental development
 
 ---
 
 # 👩‍💻 Author
+
 **Zunaira**
 
-Developed as an AI engineering project focused on building a modular, scalable research intelligence system using professional software engineering practices.
+Developed as an AI engineering project focused on building a modular, scalable AI Research Intelligence Agent while applying professional software engineering, backend development, API design, and AI engineering practices.
 
