@@ -1030,11 +1030,104 @@ http://127.0.0.1:8000/docs
 
 ## Phase 6 – AI Intelligence 🚧
 
-- [ ] AI-generated summaries
-- [ ] Research insight generation
-- [ ] Trend detection
-- [ ] Intelligence extraction from collected research updates
+Phase 6 transforms collected AI research updates into evidence-grounded intelligence.
 
+Instead of generating summaries from only a title, category, or metadata, the system first retrieves the original article, extracts meaningful content, removes source-specific webpage noise, and prepares clean evidence for downstream AI reasoning.
+
+### Phase 6A – Evidence-Based Article Intelligence 🚧
+
+#### Evidence Pipeline ✅
+
+The article evidence pipeline retrieves and prepares the original research content before any LLM-based intelligence is generated.
+
+- [x] Article fetching from stored source URLs
+- [x] HTTP request timeout and error handling
+- [x] Character encoding detection and correction
+- [x] Source-aware article extraction
+- [x] OpenAI article extraction
+- [x] Anthropic article extraction
+- [x] Google DeepMind article extraction
+- [x] Removal of source-specific webpage noise
+- [x] Removal of table-of-contents components
+- [x] Removal of share controls
+- [x] Removal of related-content and recommendation sections
+- [x] Removal of newsletter components
+- [x] Removal of script and style elements
+- [x] Article whitespace normalization
+- [x] Focused ArticleCleaner testing
+- [x] Focused ArticleExtractor testing
+- [x] Cross-source Fetch → Extract → Clean validation
+
+#### Evidence Pipeline Architecture
+
+```text
+Stored AIUpdate
+      │
+      │ URL + source
+      ▼
+ArticleFetcher
+      │
+      │ HTTP GET
+      ▼
+Raw HTML
+      │
+      ▼
+ArticleExtractor
+      │
+      ├── OpenAI-specific cleanup
+      ├── Anthropic-specific cleanup
+      └── DeepMind-specific cleanup
+      │
+      ▼
+Extracted Article Text
+      │
+      ▼
+ArticleCleaner
+      │
+      ▼
+Clean Article Evidence
+      │
+      ▼
+IntelligenceService
+      │
+      ▼
+LLM
+      │
+      ▼
+Structured Article Intelligence
+
+The evidence pipeline has been validated against live articles from OpenAI, Anthropic, and Google DeepMind.
+
+This ensures that future AI-generated intelligence is grounded in the actual source article rather than inferred only from metadata.
+
+#### Structured AI Intelligence ⏳
+
+The next step is to build the `IntelligenceService`, which will use cleaned article evidence to generate structured, evidence-grounded intelligence.
+
+Target output:
+
+```json
+{
+  "summary": "Concise evidence-grounded summary of the article.",
+  "key_points": [
+    "Important finding or announcement",
+    "Important technical or research detail",
+    "Important implication"
+  ],
+  "why_it_matters": "Explanation of why the development matters for AI research, industry, or practitioners."
+  }
+
+## Planned work:
+
+ Design IntelligenceService
+ Select and integrate an LLM
+ Design evidence-grounded prompts
+ Generate article summaries
+ Extract key research points
+ Generate why_it_matters
+ Enforce structured output
+ Validate generated intelligence against source evidence
+ Handle LLM failures and malformed responses
 ---
 
 ## Phase 7 – Dashboard
