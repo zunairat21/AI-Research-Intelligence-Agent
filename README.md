@@ -486,7 +486,7 @@ Used when the client provides a query parameter containing only whitespace.
 Example:
 
 ```text
-GET /updates?source=   
+GET /updates?source=
 ```
 
 After normalization:
@@ -1119,15 +1119,15 @@ Target output:
 
 ## Planned work:
 
- Design IntelligenceService
- Select and integrate an LLM
- Design evidence-grounded prompts
- Generate article summaries
- Extract key research points
- Generate why_it_matters
- Enforce structured output
- Validate generated intelligence against source evidence
- Handle LLM failures and malformed responses
+- [ ] Design `IntelligenceService`
+- [ ] Select and integrate an LLM
+- [ ] Design evidence-grounded prompts
+- [ ] Generate article summaries
+- [ ] Extract key research points
+- [ ] Generate `why_it_matters`
+- [ ] Enforce structured output
+- [ ] Validate generated intelligence against source evidence
+- [ ] Handle LLM failures and malformed responses
 ---
 
 ## Phase 7 – Dashboard
